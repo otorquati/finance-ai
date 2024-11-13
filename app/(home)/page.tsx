@@ -6,6 +6,7 @@ import TimeSelect from "./_components/time-select";
 import { isMatch } from "date-fns";
 import TransactionsPieChart from "./_components/transctions-pie-chart";
 import { getDashboard } from "../_data/get-dashboard";
+import ExpensesPerCategory from "./_components/expenses-per-category";
 interface HomeProps {
   searchParams: {
     month: string | "";
@@ -31,6 +32,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
       <div className="flex h-full flex-col space-y-6 overflow-hidden p-6">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
+          {/* Seleção do Mês */}
           <TimeSelect />
         </div>
         <div className="grid h-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
@@ -40,9 +42,11 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
             <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
               {/* Gráfico */}
               <TransactionsPieChart {...dashboard} />
+              <ExpensesPerCategory
+                expensesPerCategory={dashboard.totalExpensePerCategory}
+              />
             </div>
           </div>
-          {/* Seleção do Mês */}
         </div>
       </div>
     </>
