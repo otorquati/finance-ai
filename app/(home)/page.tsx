@@ -4,10 +4,11 @@ import Navbar from "../_components/navbar";
 import SummaryCards from "./_components/summary-cards";
 import TimeSelect from "./_components/time-select";
 import { isMatch } from "date-fns";
-
+import TransactionsPieChart from "./_components/transctions-pie-chart";
+import { getDashboard } from "../_data/get-dashboard";
 interface HomeProps {
   searchParams: {
-    month: string;
+    month: string | "";
   };
 }
 
@@ -19,18 +20,31 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
   const monthIsInvalid = !month || !isMatch(month, "MM");
   console.log(month);
   if (monthIsInvalid) {
-    redirect("/?month=01");
+    redirect("?month=01");
   }
+
+  const dashboard = await getDashboard(month);
+
   return (
     <>
       <Navbar />
-      <div className="space-y-6 p-6">
+      <div className="flex h-full flex-col space-y-6 overflow-hidden p-6">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <TimeSelect />
         </div>
+        <div className="grid h-full grid-cols-[2fr,1fr] gap-6 overflow-hidden">
+          <div className="flex flex-col gap-6 overflow-hidden">
+            {/*Cartões Superiores */}
+            <SummaryCards month={month} {...dashboard} />
+            <div className="grid h-full grid-cols-3 grid-rows-1 gap-6 overflow-hidden">
+              {/* Gráfico */}
+              <TransactionsPieChart {...dashboard} />
+            </div>
+          </div>
+          {/* Seleção do Mês */}
+        </div>
       </div>
-      <SummaryCards month={month} />
     </>
   );
 };
