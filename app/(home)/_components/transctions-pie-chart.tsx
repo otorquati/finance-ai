@@ -12,6 +12,7 @@ import {
   ChartTooltipContent,
 } from "@/app/_components/ui/chart";
 import { TransactionPercentagePerType } from "@/app/_data/get-dashboard/types";
+import PercentageItem from "./percentage-item";
 
 const chartConfig = {
   [TransactionType.INVESTMENT]: {
@@ -79,34 +80,23 @@ const TransactionsPieChart = ({
           </PieChart>
         </ChartContainer>
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            {/* Icone */}
-            <TrendingUp size={16} className="text-primary" />
-            <p className="text-sm text-muted-foreground">Receita</p>
-            <p className="text-sm font-bold">
-              {typesPercentage[TransactionType.DEPOSIT]}%
-            </p>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            {/* Icone */}
-            <TrendingDown size={16} className="text-red-500" />
-            <p className="text-sm text-muted-foreground">Despesas</p>
-            <p className="text-sm font-bold">
-              {typesPercentage[TransactionType.EXPENSE]}%
-            </p>
-          </div>
-        </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            {/* Icone */}
-            <PiggyBank size={16} />
-            <p className="text-sm text-muted-foreground">Investimento</p>
-            <p className="text-sm font-bold">
-              {typesPercentage[TransactionType.INVESTMENT]}%
-            </p>
-          </div>
+          <PercentageItem
+            icon={<TrendingUp size={16} className="text-primary" />}
+            title="Receita"
+            value={typesPercentage[TransactionType.DEPOSIT]}
+          />
+
+          <PercentageItem
+            icon={<TrendingDown size={16} className="text-red-500" />}
+            title="Despesas"
+            value={typesPercentage[TransactionType.EXPENSE]}
+          />
+
+          <PercentageItem
+            icon={<PiggyBank size={16} />}
+            title="Investimento"
+            value={typesPercentage[TransactionType.INVESTMENT]}
+          />
         </div>
       </CardContent>
     </Card>
