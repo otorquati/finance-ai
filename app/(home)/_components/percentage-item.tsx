@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 interface PercentageItemProps {
   icon: ReactNode;
   title: string;
-  value: number;
+  value?: number | 0;
 }
 
 const PercentageItem = ({ icon, title, value }: PercentageItemProps) => {

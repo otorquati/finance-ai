@@ -7,6 +7,7 @@ import { isMatch } from "date-fns";
 import TransactionsPieChart from "./_components/transctions-pie-chart";
 import { getDashboard } from "../_data/get-dashboard";
 import ExpensesPerCategory from "./_components/expenses-per-category";
+import LastTransactions from "./_components/last-transactions";
 interface HomeProps {
   searchParams: {
     month: string | "";
@@ -23,9 +24,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
   if (monthIsInvalid) {
     redirect("?month=01");
   }
-
   const dashboard = await getDashboard(month);
-
   return (
     <>
       <Navbar />
@@ -47,6 +46,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
               />
             </div>
           </div>
+          <LastTransactions lastTransactions={dashboard.lastTransactions} />
         </div>
       </div>
     </>
