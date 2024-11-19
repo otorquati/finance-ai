@@ -1,23 +1,26 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import Navbar from "../_components/navbar";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader } from "../_components/ui/card";
 import { CheckIcon, XIcon } from "lucide-react";
 import AcquirePlanButton from "./_components/acquire-plan-button";
+import { Badge } from "../_components/ui/badge";
 
 const SubscriptionPage = async () => {
   const { userId } = await auth();
   if (!userId) {
     redirect("/login");
   }
-
+  const user = await clerkClient().users.getUser(userId);
+  const hasPremiumPlan = user.publicMetadata.subscriptionPlan == "premium";
   return (
     <>
       <Navbar />;
       <div className="space-y-6 p-6">
         <h1 className="text2xl font-bold">Assinatura</h1>
         <div className="flex gap-6">
-          <Card className="w-[458px">
+          {/* PLANO BÁSICO */}
+          <Card className="w-[458px]">
             <CardHeader className="borde-solid border-b py-8">
               <h2 className="text-center text-2xl font-semibold">
                 Plano Básico
@@ -39,8 +42,14 @@ const SubscriptionPage = async () => {
               </div>
             </CardContent>
           </Card>
-          <Card className="w-[458px">
-            <CardHeader className="borde-solid border-b py-8">
+          {/* PLANO PREMIUM */}
+          <Card className="w-[458px]">
+            <CardHeader className="borde-solid relative border-b py-8">
+              {hasPremiumPlan && (
+                <Badge className="absolute left-4 top-12 bg-primary/10 text-primary">
+                  Ativo
+                </Badge>
+              )}
               <h2 className="text-center text-2xl font-semibold">
                 Plano Premium
               </h2>
